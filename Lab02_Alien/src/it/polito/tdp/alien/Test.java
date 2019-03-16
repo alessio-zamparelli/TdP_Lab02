@@ -1,22 +1,49 @@
 package it.polito.tdp.alien;
 
+import java.util.LinkedList;
+import java.util.List;
+
 public class Test {
 
 	public static void main(String[] args) {
 		AlienDictionary dict = new AlienDictionary();
-		dict.addWord("allala", "fanculo");
-		System.out.println("Cerco allala -> " + dict.translateWord("allala"));
+//		dict.addWord("parolaaliena", "traduzioneuno");
+//		System.out.println(dict.translateWord("parolaaliena"));
+//		
+//	
+//		dict.addWord("parolaaliena", "traduzionedue");
+//		System.out.println(dict.translateWord("parolaaliena"));
+//		
+//		dict.addWord("parolaaliena", "traduzionetre");
+//		System.out.println(dict.translateWord("parolaaliena"));
+//
+//		dict.addWord("parolaaliena", "traduzionequattro");
+//		System.out.println(dict.translateWord("parolaaliena"));
+//
+//		dict.addWord("parolaaliena", "traduzionecinque");
+//		System.out.println(dict.translateWord("parolaaliena"));
 
-
-		dict.addWord("allala", "fanculoPanzone");		
-		System.out.println("Cerco allala -> " + dict.translateWord("allala"));
-		System.out.println("Cerco fannanna -> " + dict.translateWord("fannanna"));
-
-		Word w1 = new Word("alien", "ita");
-		Word w2 = new Word("alien", "merd");
-		System.out.println(w1.getTranslation());
-		System.out.println(w2.getTranslation());
+		dict.addWord("alieno", "ita");
+		dict.addWord("alizno", "bravo");
+		dict.addWord("alifno", "trovata");
 		
-		System.out.println("Uguali? " + w1.equals(w2));
+		String alienWord = "ALI?NO";
+		alienWord = alienWord.toLowerCase();
+		
+		
+		System.out.println(dict.translateWord(alienWord));
+		
+//		List<String> buffer ;
+//		List<String> res = new LinkedList<String>();
+//		if (alienWord.contains("?")) {
+//			for(int i =0 ; i<26;i++) {
+//				String newWord = alienWord.replaceAll("\\?", Character.toString((char) (97+i)));
+////				System.out.println(newWord);
+//				
+//				if((buffer=dict.translateWord(newWord))!=null) {
+//					res.addAll(buffer);
+//				}	
+//			}
+//		}
 	}
 }

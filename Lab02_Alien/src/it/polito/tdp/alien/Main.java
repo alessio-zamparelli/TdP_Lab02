@@ -19,6 +19,8 @@ public class Main extends Application {
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();
+			System.err.println(e.getMessage());
+			System.err.println(e.getLocalizedMessage());
 		}
 	}
 	

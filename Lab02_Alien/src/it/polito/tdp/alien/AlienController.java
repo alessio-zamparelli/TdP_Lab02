@@ -5,6 +5,7 @@ package it.polito.tdp.alien;
  */
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
@@ -17,7 +18,6 @@ import javafx.scene.control.TextField;
 public class AlienController {
 
 	AlienDictionary dict = new AlienDictionary();
-	private String pattern = "^(\\w+(\\ \\w+)*)$";
 
 	@FXML
 	private ResourceBundle resources;
@@ -51,7 +51,7 @@ public class AlienController {
 		String newTranslation = txtWord.getText().toLowerCase();
 
 		// controllo la validità in ingresso
-		if (!newTranslation.matches(pattern) || newTranslation == null || newTranslation.length() == 0) {
+		if (newTranslation == null || newTranslation.length() == 0) {
 			txtResult.appendText("Testo in ingresso non valido, controllare la formattazione\n");
 			txtResult.appendText("Le possibilità sono:\n");
 			txtResult.appendText("<parola aliena> <traduzione>  	per inserirne una nuova\n");
@@ -67,39 +67,43 @@ public class AlienController {
 			return;
 		}
 		
-		//controllo che si abbiano al piu 2 elementi
-		if (st.countTokens()>2) {
-			txtResult.appendText("Inserire al piu 2 termini\n");
-			return;
-		}
 
 		String alienWord = st.nextToken();
 
 		//se devo inserire la traduzione
 		if(st.hasMoreElements()) {
-			String translation = st.nextToken();
 			
-			//controllo formattazione
-			if (!alienWord.matches("[a-zA-Z]*") || !translation.matches("[a-zA-Z]*")) {
-				txtResult.appendText("Inserire solo caratteri alfabetici.\n");
-				return;
+			// per tutte le parole immesse aggiorno il db
+			while(st.hasMoreTokens()) 
+			{
+				String translation = st.nextToken();
+				
+				//controllo formattazione
+				if (!alienWord.matches("[a-zA-Z]*") || !translation.matches("[a-zA-Z]*")) {
+					txtResult.appendText("Inserire solo caratteri alfabetici.\n");
+					return;
+				}
+				
+				dict.addWord(alienWord, translation);
+				txtResult.appendText(String.format("Aggiunto al dizionario %s che significa %s\n", alienWord, translation));
 			}
 			
-			dict.addWord(alienWord, translation);
-			txtResult.appendText(String.format("Aggiunto al dizionario %s che significa %s\n", alienWord, translation));
 		} else {
 			
 			// se devo tradurre una parola
-			if (!alienWord.matches("[a-zA-Z]*")) {
+			if (!alienWord.matches("^[a-z]*[\\?]?[a-z]*$")) {
 				txtResult.appendText("Inserire solo caratteri alfabetici.\n");
 				return;
 			}
 			
-			String translation = dict.translateWord(alienWord);
+			List<String> translation = dict.translateWord(alienWord);
 			if (translation == null) {
 				txtResult.appendText(String.format("La parola %s non è ancora stata inserita!\n", alienWord));
 			} else {
-				txtResult.appendText(String.format("La parola %s significa %s\n", alienWord, translation));
+				txtResult.appendText(String.format("La parola %s significa:\n", alienWord));
+				for (String string : translation) {
+					txtResult.appendText(string + "\n");
+				}
 			}
 		}
 		
